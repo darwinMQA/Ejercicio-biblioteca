@@ -147,8 +147,8 @@ sap.ui.define([
       const context = oEvent.getSource().getBindingContext();
       const publisher = context.getObject();
 
-      this._editPublisherId = publisher.id;
-      sap.ui.getCore().byId("editPublisherNameInput").setValue(publisher.name);
+      this._editPublisherId = publisher.ID;
+      sap.ui.getCore().byId("editPublisherNameInput").setValue(publisher.NAME);
 
       this._oEditDialog.open();
     }

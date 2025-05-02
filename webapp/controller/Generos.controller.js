@@ -143,7 +143,7 @@ sap.ui.define([
       const genre = context.getObject();
     
       this._editGenreId = genre.ID;
-      sap.ui.getCore().byId("editGenreInput").setValue(genre.genre);
+      sap.ui.getCore().byId("editGenreInput").setValue(genre.GENRE);
     
       this._oEditDialog.open();
     }    
