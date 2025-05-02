@@ -1,0 +1,16 @@
+{
+    "name": "ui5.quickstart",
+    "version": "1.0.0",
+    "description": "The UI5 quickstart tutorial",
+    "scripts": {
+        "start": "ui5 serve -o index.html"
+    },
+    "devDependencies": {
+        "@ui5/cli": "^4.0.14"
+    },
+    "dependencies": {
+        "@sap/hana-client": "^2.24.24",
+        "cors": "^2.8.5",
+        "express": "^5.1.0"
+    }
+}

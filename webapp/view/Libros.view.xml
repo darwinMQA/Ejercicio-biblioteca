@@ -1,0 +1,124 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  controllerName="quickstart.controller.Libros">
+
+  <!-- Contenedor de la vista -->
+  <VBox>
+    
+    <!-- Título de la vista -->
+    <Text text="Gestión de Libros" class="sapUiSmallMarginTop" />
+
+    <!-- Formulario para agregar un libro -->
+    <VBox class="sapUiSmallMarginTop">
+      <Label text="Título" />
+      <Input id="titleInput" placeholder="Ingrese el título del libro" />
+      
+      <Label text="Calificación" />
+      <Input id="ratingInput" placeholder="Ingrese la calificación" />
+      
+      <Label text="Número de Páginas" />
+      <Input id="totalPagesInput" placeholder="Número de páginas" />
+      
+      <Label text="Fecha de Publicación" />
+      <DatePicker id="publishedDateInput" placeholder="Seleccione la fecha de publicación" />
+
+      <Label text="Género" />
+      <Input id="genreInput" placeholder="Ingrese el género" />
+
+      <Label text="Autor" />
+      <Input id="authorInput" placeholder="Ingrese el autor" />
+
+      <Button text="Agregar Libro" type="Emphasized" press="onAddBook" />
+    </VBox>
+
+    <!-- Tabla de Libros -->
+    <Table id="booksTable" items="{
+        path: '/books'
+      }">
+      <headerToolbar>
+        <Toolbar>
+          <Title text="Lista de Libros" />
+        </Toolbar>
+      </headerToolbar>
+      
+      <columns>
+        <Column>
+          <Text text="ID" />
+        </Column>
+        <Column>
+          <Text text="Título" />
+        </Column>
+        <Column>
+          <Text text="Calificación" />
+        </Column>
+        <Column>
+          <Text text="Número de Páginas" />
+        </Column>
+        <Column>
+          <Text text="Fecha de Publicación" />
+        </Column>
+        <Column>
+          <Text text="Género" />
+        </Column>
+        <Column>
+          <Text text="Autor" />
+        </Column>
+        <Column>
+          <Text text="Acciones" />
+        </Column>
+      </columns>
+      
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{ID}" />
+            <Text text="{TITLE}" />
+            <Text text="{RATING}" />
+            <Text text="{TOTAL_PAGES}" />
+            <Text text="{PUBLISHED_DATE}" />
+            <Text text="{GENRE_ID}" /> <!-- Aquí necesitarías mostrar el nombre del género, no el ID -->
+            <Text text="{AUTHORS_ID}" /> <!-- Aquí necesitarías mostrar el nombre del autor, no el ID -->
+            <HBox>
+              <Button text="Editar" press="onUpdateBook" />
+              <Button text="Eliminar" press="onDeleteBook" />
+            </HBox>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+    
+  </VBox>
+
+  <!-- Diálogo para editar un libro -->
+  <Dialog id="editBookDialog" title="Editar Libro">
+    <VBox>
+      <Label text="Título" />
+      <Input id="editBookTitleInput" placeholder="Ingrese el título" />
+      
+      <Label text="Calificación" />
+      <Input id="editBookRatingInput" placeholder="Ingrese la calificación" />
+      
+      <Label text="Número de Páginas" />
+      <Input id="editBookTotalPagesInput" placeholder="Número de páginas" />
+      
+      <Label text="Fecha de Publicación" />
+      <DatePicker id="editBookPublishedDateInput" placeholder="Seleccione la fecha de publicación" />
+
+      <Label text="Género" />
+      <Input id="editBookGenreInput" placeholder="Ingrese el género" />
+
+      <Label text="Autor" />
+      <Input id="editBookAuthorInput" placeholder="Ingrese el autor" />
+    </VBox>
+    
+    <beginButton>
+      <Button text="Guardar" press="onSaveBook" />
+    </beginButton>
+    <endButton>
+      <Button text="Cancelar" press="onCancelEditBook" />
+    </endButton>
+  </Dialog>
+
+</mvc:View>

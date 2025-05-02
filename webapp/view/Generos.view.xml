@@ -1,0 +1,39 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  controllerName="quickstart.controller.Generos">
+  
+  <VBox  
+    
+    class="sapUiSmallMargin sapUiResponsiveMargin sapUiContentPadding">
+    <Text text="Agregar Genero" />
+    <Input id="genreInput" placeholder="Genero" />
+    <Button text="Agregar" press="onAddGenre" />
+  </VBox>
+
+  <Table id="genreTable" items="{/genre}" class="sapUiContentPadding">
+    <columns>
+      <Column>
+        <Text text="ID" />
+      </Column>
+      <Column>
+        <Text text="Genero" />
+      </Column>
+      <Column>
+        <Text text="Acciones" />
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem>
+        <cells>
+          <Text text="{ID}" />
+          <Text text="{GENRE}" />
+          <HBox>
+            <Button text="Eliminar" press="onDeleteGenre" />
+            <Button text="Actualizar" press="onUpdateGenre" />
+          </HBox>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</mvc:View>

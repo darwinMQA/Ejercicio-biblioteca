@@ -1,0 +1,50 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  controllerName="quickstart.controller.App">
+
+  <App id="app">
+    <pages>
+      <Page title="Bienvenido a la Biblioteca Digital">
+        <content>
+          <VBox alignItems="Center" justifyContent="Center" class="sapUiMediumMargin">
+            <Title text="¡Bienvenido a la Biblioteca Digital!" level="H1" />
+            <Text text="Selecciona una opción para comenzar:" class="sapUiSmallMarginBottom" />
+
+            <FlexBox
+              wrap="Wrap"
+              justifyContent="Center"
+              alignItems="Center"
+              class="sapUiMediumMargin">
+              
+              <GenericTile header="Libros" press="onNavToLibros" class="sapUiTinyMargin">
+                <TileContent >
+                  <ImageContent src="https://cdn-icons-png.flaticon.com/512/29/29302.png"/>
+                </TileContent>
+              </GenericTile>
+
+              <GenericTile header="Autores" press="onNavToAutores" class="sapUiTinyMargin">
+                <TileContent>
+                  <ImageContent src="https://uxwing.com/wp-content/themes/uxwing/download/education-school/author-writer-icon.svg" />
+                </TileContent>
+              </GenericTile>
+
+              <GenericTile header="Géneros" press="onNavToGeneros" class="sapUiTinyMargin">
+                <TileContent>
+                  <ImageContent src="https://img.icons8.com/ios/50/theatre-mask.png" />
+                </TileContent>
+              </GenericTile>
+
+              <GenericTile header="Editoriales" press="onNavToEditoriales" class="sapUiTinyMargin">
+                <TileContent>
+                  <ImageContent src="https://img.icons8.com/external-goofy-line-kerismaker/96/external-Editorial-graphic-design-goofy-line-kerismaker.png" />
+                </TileContent>
+              </GenericTile>
+
+            </FlexBox>
+          </VBox>
+        </content>
+      </Page>
+    </pages>
+  </App>
+</mvc:View>

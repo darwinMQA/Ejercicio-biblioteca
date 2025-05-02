@@ -1,0 +1,44 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  controllerName="quickstart.controller.Autores">
+  
+  <VBox  
+    
+    class="sapUiSmallMargin sapUiResponsiveMargin sapUiContentPadding">
+    <Text text="Agregar Autor" />
+    <Input id="nameInput" placeholder="Nombre" />
+    <Input id="surnameInput" placeholder="Apellido" />
+    <Button text="Agregar" press="onAddAuthor" />
+  </VBox>
+
+  <Table id="authorTable" items="{/authors}" class="sapUiContentPadding">
+    <columns>
+      <Column>
+        <Text text="ID" />
+      </Column>
+      <Column>
+        <Text text="Nombre" />
+      </Column>
+      <Column>
+        <Text text="Apellido" />
+      </Column>
+      <Column>
+        <Text text="Acciones" />
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem>
+        <cells>
+          <Text text="{ID}" />
+          <Text text="{NAME}" />
+          <Text text="{SURNAME}" />
+          <HBox>
+            <Button text="Eliminar" press="onDeleteAuthor" />
+            <Button text="Actualizar" press="onUpdateAuthor" />
+          </HBox>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</mvc:View>

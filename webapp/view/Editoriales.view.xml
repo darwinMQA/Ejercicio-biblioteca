@@ -1,0 +1,39 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  controllerName="quickstart.controller.Editoriales">
+  
+  <VBox  
+    
+    class="sapUiSmallMargin sapUiResponsiveMargin sapUiContentPadding">
+    <Text text="Agregar Editorial" />
+    <Input id="nameInput" placeholder="Nombre" />
+    <Button text="Agregar" press="onAddPublisher" />
+  </VBox>
+
+  <Table id="publisherTable" items="{/publishers}" class="sapUiContentPadding">
+    <columns>
+      <Column>
+        <Text text="ID" />
+      </Column>
+      <Column>
+        <Text text="Nombre" />
+      </Column>
+      <Column>
+        <Text text="Acciones" />
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem>
+        <cells>
+          <Text text="{ID}" />
+          <Text text="{NAME}" />
+          <HBox>
+            <Button text="Eliminar" press="onDeletePublisher" />
+            <Button text="Actualizar" press="onUpdatePublisher" />
+          </HBox>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</mvc:View>
