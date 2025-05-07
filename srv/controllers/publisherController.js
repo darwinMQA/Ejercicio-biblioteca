@@ -20,7 +20,7 @@ exports.addPublisher = (req, res) => {
   }
 
   const query = `
-    INSERT INTO PUBLISHERS 
+    INSERT INTO PUBLISHER 
     (name)
     VALUES (?)`;
 

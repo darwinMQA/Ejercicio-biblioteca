@@ -28,7 +28,7 @@ sap.ui.define([
       this._createEditDialog();
     },
 
-    // Obtener todas las editoriales
+    // Obtener las editoriales
     _fetchPublishers: function () {
       fetch('http://localhost:3000/api/publishers')
         .then(response => response.json())
@@ -42,38 +42,37 @@ sap.ui.define([
         });
     },
 
-    // Crear el diálogo de edición
     _createEditDialog: function () {
       this._oEditDialog = new Dialog({
         title: "Editar Editorial",
         content: [
-          new Input("editPublisherNameInput", { placeholder: "Nombre" })
+          new Input("editNameInput", { placeholder: "Nombre" }),
         ],
         beginButton: new Button({
           text: "Guardar",
           press: function () {
             const id = this._editPublisherId;
-            const name = sap.ui.getCore().byId("editPublisherNameInput").getValue();
-
+            const name = sap.ui.getCore().byId("editNameInput").getValue();
+          
             fetch(`http://localhost:3000/api/publishers/${id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ name })
             })
-              .then(response => {
-                if (response.ok) {
-                  MessageToast.show("Editorial actualizada correctamente.");
-                  this._fetchPublishers();
-                } else {
-                  MessageToast.show("Error al actualizar editorial.");
-                }
-                this._oEditDialog.close();
-              })
-              .catch(error => {
-                console.error("Error:", error);
+            .then(response => {
+              if (response.ok) {
+                MessageToast.show("Editorial actualizada correctamente.");
+                this._fetchPublishers();
+              } else {
                 MessageToast.show("Error al actualizar editorial.");
-                this._oEditDialog.close();
-              });
+              }
+              this._oEditDialog.close();
+            })
+            .catch(error => {
+              console.error("Error:", error);
+              MessageToast.show("Error al actualizar editorial.");
+              this._oEditDialog.close();
+            });
           }.bind(this)
         }),
         endButton: new Button({
@@ -85,16 +84,17 @@ sap.ui.define([
       });
     },
 
-    // Agregar una editorial
+
+    // Agregar editorial
     onAddPublisher: function () {
       var name = this.byId("nameInput").getValue();
 
       if (!name) {
-        MessageToast.show("Por favor ingresa el nombre de la editorial.");
+        MessageToast.show("Por favor ingresa el nombre.");
         return;
       }
 
-      var publisher = { name: name };
+      var publisher = { name: name};
 
       fetch('http://localhost:3000/api/publishers', {
         method: 'POST',
@@ -106,13 +106,7 @@ sap.ui.define([
           MessageToast.show("Editorial agregada correctamente.");
           this._fetchPublishers();
         } else {
-          // Verifica el código de error más detallado
-          return response.text(); // Para obtener detalles adicionales del error
-        }
-      })
-      .then(errorMessage => {
-        if (errorMessage) {
-          MessageToast.show("Error al agregar editorial: " + errorMessage);
+          MessageToast.show("Error al agregar Editorial.");
         }
       })
       .catch(error => {
@@ -121,37 +115,41 @@ sap.ui.define([
       });
     },
 
-    // Eliminar una editorial
+    // Eliminar editorial
     onDeletePublisher: function (oEvent) {
-      var id = oEvent.getSource().getBindingContext().getProperty("id");
+      var id = oEvent.getSource().getBindingContext().getProperty("ID");
 
       fetch(`http://localhost:3000/api/publishers/${id}`, {
         method: 'DELETE'
       })
-        .then(response => {
-          if (response.ok) {
-            MessageToast.show("Editorial eliminada correctamente.");
-            this._fetchPublishers();
-          } else {
-            MessageToast.show("Error al eliminar editorial.");
-          }
-        })
-        .catch(error => {
-          console.error('Error al eliminar editorial:', error);
+      .then(response => {
+        if (response.ok) {
+          MessageToast.show("Editorial eliminada correctamente.");
+          this._fetchPublishers(); 
+        } else {
           MessageToast.show("Error al eliminar editorial.");
-        });
+        }
+      })
+      .catch(error => {
+        console.error('Error al eliminar editorial:', error);
+        MessageToast.show("Error al eliminar editorial.");
+      });
     },
 
-    // Editar una editorial
+    // Actualizar editorial
     onUpdatePublisher: function (oEvent) {
       const context = oEvent.getSource().getBindingContext();
       const publisher = context.getObject();
-
+    
       this._editPublisherId = publisher.ID;
-      sap.ui.getCore().byId("editPublisherNameInput").setValue(publisher.NAME);
-
+      sap.ui.getCore().byId("editNameInput").setValue(publisher.NAME);
+    
       this._oEditDialog.open();
     }
+
+    
+    
+    
 
   });
 });

@@ -36,7 +36,6 @@ sap.ui.define([
           var oModel = new sap.ui.model.json.JSONModel();
           oModel.setData({ authors: authors });
           this.getView().setModel(oModel);
-          this._updateAuthorTable(authors);
         })
         .catch(error => {
           console.error('Error al obtener autores:', error);
