@@ -48,6 +48,9 @@
         <Column>
           <Text text="Autor" />
         </Column>
+        <Column>
+        <Text text="Acciones" />
+      </Column>
       </columns>
 
       <items>
@@ -57,8 +60,12 @@
             <Text text="{books>RATING}" />
             <Text text="{books>TOTAL_PAGES}" />
             <Text text="{books>PUBLISHED_DATE}" />
-            <Text text="{books>GENRE}" /> <!-- Supuesto modelo con nombre del género -->
-            <Text text="{books>AUTHOR_NAME}" /> <!-- Supuesto modelo con nombre del autor -->
+            <Text text="{books>GENRE}" /> 
+            <Text text="{books>AUTHOR_NAME}" /> 
+            <HBox>
+            <Button text="Eliminar" press="onDeleteBook" />
+            <Button text="Actualizar" press="onUpdateBook" />
+            </HBox>
           </cells>
         </ColumnListItem>
       </items>

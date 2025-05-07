@@ -2,8 +2,16 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
-  "sap/m/MessageBox"
-], function(Controller, JSONModel, MessageToast, MessageBox) {
+  "sap/m/MessageBox",
+  "sap/m/Dialog",
+  "sap/m/Input",
+  "sap/m/Button",
+  "sap/m/Table",
+  "sap/m/Column",
+  "sap/m/Text",
+], function(Controller, JSONModel, MessageToast, MessageBox, Dialog, Input, Button, Table,
+  Column,
+  Text) {
   "use strict";
 
   return Controller.extend("quickstart.controller.Libros", {
@@ -31,31 +39,85 @@ sap.ui.define([
     },
 
     onDeleteBook: function (oEvent) {
-      const oItem = oEvent.getSource().getBindingContext("books").getObject();
-      const that = this;
+      var id = oEvent.getSource().getBindingContext("books").getProperty("ID");
 
-      MessageBox.confirm(`¿Deseas eliminar el libro "${oItem.title}"?`, {
-        onClose: function (oAction) {
-          if (oAction === "OK") {
-            fetch(`http://localhost:3000/api/books/${oItem.id}`, {
-              method: "DELETE"
+      fetch(`http://localhost:3000/api/books/${id}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          MessageToast.show("Libro eliminado correctamente.");
+          this.loadBooks(); // Actualizar la lista de autores
+        } else {
+          MessageToast.show("Error al eliminar autor.");
+        }
+      })
+      .catch(error => {
+        console.error('Error al eliminar autor:', error);
+        MessageToast.show("Error al eliminar autor.");
+      });
+    },
+
+    _createEditDialog: function () {
+      this._oEditDialog = new Dialog({
+        title: "Editar Libro",
+        content: [
+          new Input("editTitleInput", { placeholder: "Título" }),
+          new Input("editRatingInput", { placeholder: "Calificación" }),
+          new Input("editPagesInput", { placeholder: "Total de páginas" }),
+          new Input("editDateInput", { placeholder: "Fecha de publicación" }),
+          new Input("editGenreInput", { placeholder: "ID del género" }),
+          new Input("editAuthorsInput", { placeholder: "ID del autor" })
+        ],
+        beginButton: new Button({
+          text: "Guardar",
+          press: function () {
+            const id = this._editBookId;
+            const title = sap.ui.getCore().byId("editTitleInput").getValue();
+            const rating = sap.ui.getCore().byId("editRatingInput").getValue();
+            const total_pages = sap.ui.getCore().byId("editPagesInput").getValue();
+            const published_date = sap.ui.getCore().byId("editDateInput").getValue();
+            const genre_id = sap.ui.getCore().byId("editGenreInput").getValue();
+            const authors_id = sap.ui.getCore().byId("editAuthorsInput").getValue();
+    
+            const updatedBook = {
+              title,
+              rating,
+              total_pages,
+              published_date,
+              genre_id,
+              authors_id
+            };
+    
+            fetch(`http://localhost:3000/api/books/${id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(updatedBook)
             })
             .then(response => {
               if (response.ok) {
-                MessageToast.show("Libro eliminado");
-                that.loadBooks();
+                MessageToast.show("Libro actualizado correctamente.");
+                this.loadBooks();
               } else {
-                MessageBox.error("Error al eliminar el libro");
+                MessageToast.show("Error al actualizar libro.");
               }
+              this._oEditDialog.close();
             })
-            .catch(err => {
-              console.error("Error:", err);
-              MessageBox.error("Error de red al eliminar el libro");
+            .catch(error => {
+              console.error("Error:", error);
+              MessageToast.show("Error al actualizar libro.");
+              this._oEditDialog.close();
             });
-          }
-        }
+          }.bind(this)
+        }),
+        endButton: new Button({
+          text: "Cancelar",
+          press: function () {
+            this._oEditDialog.close();
+          }.bind(this)
+        })
       });
-    },
+    },    
 
     // Agregar libro
     onAddBook: function () {
@@ -92,12 +154,33 @@ sap.ui.define([
       });
     },
 
-    onEditBook: function (oEvent) {
-      const oItem = oEvent.getSource().getBindingContext("books").getObject();
-      const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      oRouter.navTo("EditBook", {
-        bookId: oItem.id
-      });
-    }
+    // Actualizar libro
+    onUpdateBook: function (oEvent) {
+      const oContext = oEvent.getSource().getBindingContext("books");
+      const Book = oContext.getObject();
+    
+      // Guardamos el ID del libro para actualizarlo después
+      this._editBookId = Book.ID;
+
+      if (!this._oEditDialog) {
+        this._createEditDialog();
+      }
+    
+      // Asignamos valores actuales al formulario de edición (debe estar en el fragmento/dialog)
+      sap.ui.getCore().byId("editTitleInput").setValue(Book.TITLE);
+      sap.ui.getCore().byId("editRatingInput").setValue(Book.RATING);
+      sap.ui.getCore().byId("editPagesInput").setValue(Book.TOTAL_PAGES);
+      sap.ui.getCore().byId("editDateInput").setValue(Book.PUBLISHED_DATE);
+      sap.ui.getCore().byId("editGenreInput").setValue(Book.GENRE_ID);
+      sap.ui.getCore().byId("editAuthorsInput").setValue(Book.AUTHORS_ID);
+    
+      // Abrimos el diálogo (asegúrate de que esté creado)
+      if (!this._oEditDialog) {
+        this._oEditDialog = sap.ui.xmlfragment("quickstart.view.EditBookDialog", this);
+        this.getView().addDependent(this._oEditDialog);
+      }
+      this._oEditDialog.open();
+    },
+    
   });
 });
