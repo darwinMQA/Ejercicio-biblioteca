@@ -24,6 +24,9 @@
     <Label text="Autor" />
     <Input id="authorsInput" type="Number" />
 
+    <Label text="Editorial" />
+    <Input id="publisherInput" type="Number" />
+
     <!-- Botones -->
     <Button text="Agregar" press="onAddBook" />
 
@@ -49,6 +52,9 @@
           <Text text="Autor" />
         </Column>
         <Column>
+          <Text text="Editorial" />
+        </Column>
+        <Column>
         <Text text="Acciones" />
       </Column>
       </columns>
@@ -62,6 +68,7 @@
             <Text text="{books>PUBLISHED_DATE}" />
             <Text text="{books>GENRE}" /> 
             <Text text="{books>AUTHOR_NAME}" /> 
+            <Text text="{books>PUBLISHER_NAME}" /> 
             <HBox>
             <Button text="Eliminar" press="onDeleteBook" />
             <Button text="Actualizar" press="onUpdateBook" />

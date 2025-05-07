@@ -69,7 +69,9 @@ sap.ui.define([
           new Label({ text: "ID del género", labelFor: "editGenreInput" }),
           new Input("editGenreInput", { placeholder: "ID del género" }),
           new Label({ text: "ID del autor", labelFor: "editAuthorsInput" }),
-          new Input("editAuthorsInput", { placeholder: "ID del autor" })
+          new Input("editAuthorsInput", { placeholder: "ID del autor" }),
+          new Label({ text: "ID de editorial", labelFor: "editPublisherInput" }),
+          new Input("editPublisherInput", { placeholder: "ID de editorial" })
         ],
         beginButton: new Button({
           text: "Guardar",
@@ -81,6 +83,7 @@ sap.ui.define([
             const published_date = sap.ui.getCore().byId("editDateInput").getValue();
             const genre_id = sap.ui.getCore().byId("editGenreInput").getValue();
             const authors_id = sap.ui.getCore().byId("editAuthorsInput").getValue();
+            const publisher_id = sap.ui.getCore().byId("editPublisherInput").getValue();
     
             const updatedBook = {
               title,
@@ -88,7 +91,8 @@ sap.ui.define([
               total_pages,
               published_date,
               genre_id,
-              authors_id
+              authors_id,
+              publisher_id
             };
     
             fetch(`http://localhost:3000/api/books/${id}`, {
@@ -129,13 +133,14 @@ sap.ui.define([
       var published_date = this.byId("dateInput").getValue();
       var genre_id = this.byId("genreInput").getValue();
       var authors_id = this.byId("authorsInput").getValue();
+      var publisher_id = this.byId("publisherInput").getValue();
 
-      if (!title || !rating || !total_pages || !published_date || !genre_id || !authors_id) {
+      if (!title || !rating || !total_pages || !published_date || !genre_id || !authors_id || !publisher_id) {
         MessageToast.show("Por favor ingresa todos los datos.");
         return;
       }
 
-      var book = { title: title, rating: rating, total_pages: total_pages, published_date: published_date, genre_id: genre_id, authors_id: authors_id };
+      var book = { title: title, rating: rating, total_pages: total_pages, published_date: published_date, genre_id: genre_id, authors_id: authors_id, publisher_id: publisher_id };
 
       fetch('http://localhost:3000/api/books', {
         method: 'POST',
@@ -175,6 +180,7 @@ sap.ui.define([
       sap.ui.getCore().byId("editDateInput").setValue(Book.PUBLISHED_DATE);
       sap.ui.getCore().byId("editGenreInput").setValue(Book.GENRE_ID);
       sap.ui.getCore().byId("editAuthorsInput").setValue(Book.AUTHOR_ID);
+      sap.ui.getCore().byId("editPublisherInput").setValue(Book.PUBLISHER_ID);
     
       // Abrimos el diálogo (asegúrate de que esté creado)
       if (!this._oEditDialog) {
