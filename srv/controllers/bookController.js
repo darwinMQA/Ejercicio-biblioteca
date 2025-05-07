@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 // Obtener libros
 exports.getBooks = (req, res) => {
-  const query = 'SELECT b.id, b.title, b.rating, b.total_pages, b.published_date, g.genre AS genre, a.name AS author_name, a.surname AS author_surname FROM books b JOIN genre g ON b.genre_id = g.id JOIN authors a ON b.authors_id = a.id';
+  const query = 'SELECT b.id, b.title, b.rating, b.total_pages, b.published_date, g.id AS genre_id, g.genre AS genre, a.id AS author_id, a.name AS author_name, a.surname AS author_surname FROM books b JOIN genre g ON b.genre_id = g.id JOIN authors a ON b.authors_id = a.id';
   db.exec(query, (err, result) => {
     if (err) return res.status(500).send(err.toString());
     res.json(result);

@@ -9,9 +9,9 @@ sap.ui.define([
   "sap/m/Table",
   "sap/m/Column",
   "sap/m/Text",
+  "sap/m/Label"
 ], function(Controller, JSONModel, MessageToast, MessageBox, Dialog, Input, Button, Table,
-  Column,
-  Text) {
+  Column, Text, Label) {
   "use strict";
 
   return Controller.extend("quickstart.controller.Libros", {
@@ -62,11 +62,13 @@ sap.ui.define([
       this._oEditDialog = new Dialog({
         title: "Editar Libro",
         content: [
-          new Input("editTitleInput", { placeholder: "Título" }),
+          new Input("editTitleInput", { placeholder: "Título"}),
           new Input("editRatingInput", { placeholder: "Calificación" }),
           new Input("editPagesInput", { placeholder: "Total de páginas" }),
           new Input("editDateInput", { placeholder: "Fecha de publicación" }),
+          new Label({ text: "ID del género", labelFor: "editGenreInput" }),
           new Input("editGenreInput", { placeholder: "ID del género" }),
+          new Label({ text: "ID del autor", labelFor: "editAuthorsInput" }),
           new Input("editAuthorsInput", { placeholder: "ID del autor" })
         ],
         beginButton: new Button({
@@ -172,7 +174,7 @@ sap.ui.define([
       sap.ui.getCore().byId("editPagesInput").setValue(Book.TOTAL_PAGES);
       sap.ui.getCore().byId("editDateInput").setValue(Book.PUBLISHED_DATE);
       sap.ui.getCore().byId("editGenreInput").setValue(Book.GENRE_ID);
-      sap.ui.getCore().byId("editAuthorsInput").setValue(Book.AUTHORS_ID);
+      sap.ui.getCore().byId("editAuthorsInput").setValue(Book.AUTHOR_ID);
     
       // Abrimos el diálogo (asegúrate de que esté creado)
       if (!this._oEditDialog) {
